@@ -1,0 +1,15 @@
+{
+  "name": "node-worker-threads-demo",
+  "version": "1.0.0",
+  "description": "A demonstration of Node worker_threads module now available in Node 11.7.0 with Rxjs Observables.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --experimental-modules --no-warnings index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brian De Sousa",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^6.3.3"
+  }
+}
