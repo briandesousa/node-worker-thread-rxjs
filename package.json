@@ -4,7 +4,7 @@
   "description": "A demonstration of Node worker_threads module now available in Node 11.7.0 with Rxjs Observables.",
   "main": "index.js",
   "scripts": {
-    "start": "node --experimental-modules --no-warnings index.js",
+    "start": "node --experimental-modules --no-warnings node-parent-thread-rxjs.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Brian De Sousa",
