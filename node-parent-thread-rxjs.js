@@ -6,9 +6,9 @@ console.log("\nNode multi-threading demo using worker_threads module in Node 11.
 
 const COMPLETE_SIGNAL = 'COMPLETE';
 
-function runService(workerData, completedOnTime) {
+function runTask(workerData, completedOnTime) {
     return Rxjs.Observable.create(observer => {
-        const worker = new Worker('./service.js', { workerData });
+        const worker = new Worker('./node-worker-thread-rxjs.js', { workerData });
         worker.on('message', message => observer.next(message));
         worker.on('error', error => observer.error(error));
         worker.on('exit', code => {
@@ -26,17 +26,17 @@ function runService(workerData, completedOnTime) {
 const MAX_WAIT_TIME = 3;
 const WORKER_TIME = 10;
 
-async function run() {
+function main() {
     completedOnTime = false;
 
     console.log(`[Main] Starting worker from process ${process.pid}`);
 
-    const worker$ = await runService(WORKER_TIME, () => completedOnTime = true);
+    const worker$ = runTask(WORKER_TIME, () => completedOnTime = true);
 
     // receive messages from worker until it completes but only wait for MAX_WAIT_TIME
-    resultObservable.pipe(
+    worker$.pipe(
         RxjsOperators.takeWhile(message => message !== COMPLETE_SIGNAL),
-        RxjsOperators.takeUntil(Rxjs.timer(MAX_WAIT_TIME*1000))
+        RxjsOperators.takeUntil(Rxjs.timer(MAX_WAIT_TIME * 1000))
     ).subscribe(
         result => console.log(`[Main] worker says: ${result}`),
         error => console.error(`[Main] worker error: ${error}`),
@@ -51,4 +51,4 @@ async function run() {
     );
 }
 
-run().catch(err => console.error(err));
+main();
